@@ -1,0 +1,12 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+#selectItem > span:nth-child(2) {
+  display: flex;
+  width: 100%;
+}
+
+#selectTrigger svg {
+  display: none;
+}
