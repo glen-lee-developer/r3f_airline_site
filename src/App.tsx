@@ -2,13 +2,15 @@ import { ThreeScene } from "./scene";
 import { Leva } from "leva";
 import FlightSelection from "./components/FlightSelection";
 import Header from "./components/Header";
+import Globe from "./components/Globe";
 
 function App() {
   return (
     <main className="h-screen relative ">
-      <Header />
-      <ThreeScene />
-      <FlightSelection />
+      {/* <Header /> */}
+      {/* <ThreeScene /> */}
+      {/* <FlightSelection /> */}
+      <Globe />
       {/* WELCOME */}
       {/* EXECUTIVECLUB */}
       {/* PLACE SUGGESTIONS */}
