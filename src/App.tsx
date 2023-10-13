@@ -7,9 +7,9 @@ import Globe from "./components/Globe";
 function App() {
   return (
     <main className="h-screen relative ">
-      {/* <Header /> */}
-      {/* <ThreeScene /> */}
-      {/* <FlightSelection /> */}
+      <Header />
+      <ThreeScene />
+      <FlightSelection />
       <Globe />
       {/* WELCOME */}
       {/* EXECUTIVECLUB */}

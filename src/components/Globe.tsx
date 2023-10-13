@@ -1,14 +1,38 @@
-import React, { useRef, useLayoutEffect } from "react";
-import { extend, Canvas, useFrame } from "@react-three/fiber";
+import { a, useSpring } from "@react-spring/three";
+import React, { useRef, useLayoutEffect, useMemo } from "react";
+import { extend, Canvas, useFrame, useThree } from "@react-three/fiber";
 import ThreeGlobe from "three-globe";
-import { OrbitControls } from "@react-three/drei";
+import { OrbitControls, PerspectiveCamera } from "@react-three/drei";
+import { useDrag } from "@use-gesture/react";
+import * as THREE from "three";
 
 extend({ ThreeGlobe });
 
 const Globe = () => {
+  //  Rotation
+  function Inspector({ responsiveness = 20, children }) {
+    const { size } = useThree();
+    const euler = useMemo(() => new THREE.Euler(), []);
+    const [spring, set] = useSpring(() => ({
+      rotation: [0, 0, 0],
+    }));
+    const bind = useDrag(({ delta: [dx, dy] }) => {
+      euler.y += (dx / size.width) * responsiveness;
+      euler.x += (dy / size.width) * responsiveness;
+      euler.x = THREE.MathUtils.clamp(euler.x, -Math.PI / 2, Math.PI / 2);
+      set({ rotation: euler.toArray().slice(0, 3) });
+    });
+    return (
+      <a.group {...bind()} {...spring}>
+        {children}
+      </a.group>
+    );
+  }
+
   return (
     <Canvas camera={{ fov: 75 }}>
-      <OrbitControls position={[100, 0, -110]} />
+      <PerspectiveCamera makeDefault position={[-150, 0, 200]} />
+      {/* <OrbitControls position={[100, 0, -110]} /> */}
       <ambientLight intensity={10} />
       <spotLight
         position={[0, 40, 0]}
@@ -17,9 +41,9 @@ const Globe = () => {
         penumbra={1}
         intensity={100}
       />
-      <group position={[100, 0, -110]}>
+      <Inspector>
         <TestGlobe />
-      </group>
+      </Inspector>
     </Canvas>
   );
 };
